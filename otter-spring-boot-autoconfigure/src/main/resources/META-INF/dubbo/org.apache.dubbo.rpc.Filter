@@ -1,2 +1,2 @@
-otterDubboConsumerFilter=com.github.thierrysquirrel.interceptor.dubbo.OtterDubboConsumerFilter
-otterDubboProviderFilter=com.github.thierrysquirrel.interceptor.dubbo.OtterDubboProviderFilter
+otterDubboConsumerFilter=com.github.thierrysquirrel.otter.interceptor.dubbo.OtterDubboConsumerFilter
+otterDubboProviderFilter=com.github.thierrysquirrel.otter.interceptor.dubbo.OtterDubboProviderFilter

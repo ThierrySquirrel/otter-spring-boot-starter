@@ -25,7 +25,7 @@ Support Function：
         <dependency>
             <artifactId>otter-spring-boot-starter</artifactId>
             <groupId>com.github.thierrysquirrel</groupId>
-            <version>1.0.0-RELEASE</version>
+            <version>1.1.0-RELEASE</version>
         </dependency>
 ```  
 
@@ -54,6 +54,9 @@ public class Demo {
 	@Reference
 	private DubboService dubboService;
 
+    @Resource
+    private ButterService butterService;
+
 	@Repair
 	@GetMapping("/feign")
 	public String feign() {
@@ -69,5 +72,14 @@ public class Demo {
         //Local SQL Execution
 		return "dubbo";
 	}
+
+    @Repair
+	@GetMapping("/butter")
+	public String feign() {
+        butterService.update();
+        //Local SQL Execution
+		return "butter";
+	}
+
 }
 ```

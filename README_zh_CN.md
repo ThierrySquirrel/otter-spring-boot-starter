@@ -8,7 +8,7 @@
 - [x] 确保调用一致性  
 
 # 确保调用一致性：  
-  支持SpringBoot,SpringCloud(feign),dubbo-spring-boot-starter框架  
+  支持SpringBoot,SpringCloud(feign),dubbo-spring-boot-starter,butterfly-spring-boot-starter框架  
   使用之前,请确保调用链路,为幂等性.   
   简单讲解:服务A调用服务B,服务B调用服务C,链路中,B与C执行成功,  
   A执行异常,这时则出现数据不一致.    
@@ -23,7 +23,7 @@
         <dependency>
             <artifactId>otter-spring-boot-starter</artifactId>
             <groupId>com.github.thierrysquirrel</groupId>
-            <version>1.0.0-RELEASE</version>
+            <version>1.1.0-RELEASE</version>
         </dependency>
 ```  
 
@@ -52,6 +52,9 @@ public class Demo {
 	@Reference
 	private DubboService dubboService;
 
+    @Resource
+    private ButterService butterService;
+
 	@Repair
 	@GetMapping("/feign")
 	public String feign() {
@@ -66,6 +69,14 @@ public class Demo {
         dubboService.update();
         //本地SQL执行
 		return "dubbo";
+	}
+
+    @Repair
+	@GetMapping("/butter")
+	public String feign() {
+        butterService.update();
+        //本地SQL执行
+		return "butter";
 	}
 }
 ```
