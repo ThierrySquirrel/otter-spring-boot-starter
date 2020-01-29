@@ -67,7 +67,7 @@ public class Demo {
 
     @Repair
 	@GetMapping("/dubbo")
-	public String feign() {
+	public String dubbo() {
         dubboService.update();
         //Local SQL Execution
 		return "dubbo";
@@ -75,7 +75,7 @@ public class Demo {
 
     @Repair
 	@GetMapping("/butter")
-	public String feign() {
+	public String butter() {
         butterService.update();
         //Local SQL Execution
 		return "butter";
