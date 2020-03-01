@@ -7,7 +7,7 @@
     <groupId>com.github.thierrysquirrel</groupId>
     <artifactId>otter-spring-boot</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.0-RELEASE</version>
+    <version>1.1.1-RELEASE</version>
 
     <name>otter-spring-boot</name>
     <description>otter-spring-boot</description>
@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.2.5.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -32,7 +32,7 @@
         <protostuff-runtime.version>1.6.2</protostuff-runtime.version>
         <protostuff-core.version>1.6.2</protostuff-core.version>
         <dubbo-spring-boot-starter.version>2.7.5</dubbo-spring-boot-starter.version>
-        <butterfly-spring-boot-starter.version>1.1.0-RELEASE</butterfly-spring-boot-starter.version>
+        <butterfly-spring-boot-starter.version>1.2.0-RELEASE</butterfly-spring-boot-starter.version>
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     </properties>
