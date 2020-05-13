@@ -25,7 +25,7 @@ Support Function：
         <dependency>
             <artifactId>otter-spring-boot-starter</artifactId>
             <groupId>com.github.thierrysquirrel</groupId>
-            <version>1.1.2-RELEASE</version>
+            <version>1.1.3-RELEASE</version>
         </dependency>
 ```  
 
