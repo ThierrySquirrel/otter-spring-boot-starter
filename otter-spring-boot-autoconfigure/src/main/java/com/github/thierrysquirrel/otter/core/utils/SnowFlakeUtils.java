@@ -22,6 +22,8 @@ import com.github.thierrysquirrel.otter.core.domian.SnowFlakeDomain;
 import com.github.thierrysquirrel.otter.core.factory.SnowFlakeDomainFactory;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * ClassName: SnowFlakeUtils
  * Description:
@@ -32,42 +34,44 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class SnowFlakeUtils {
-	private SnowFlakeDomain snowFlakeDomain;
+    private final SnowFlakeDomain snowFlakeDomain;
 
-	public SnowFlakeUtils() {
-		this.snowFlakeDomain = SnowFlakeDomainFactory.createSnowFlakeDomain();
-		log.debug("Current Time" + SnowFlakeConstant.START_STAMP);
-	}
+    public SnowFlakeUtils() {
+        this.snowFlakeDomain = SnowFlakeDomainFactory.createSnowFlakeDomain ();
+    }
 
-	public synchronized Long nextId()  {
-		long currentStamp = System.currentTimeMillis();
-		long lastStamp = snowFlakeDomain.getLastStamp();
+    public synchronized Long nextId() {
 
-		int sequence = snowFlakeDomain.getSequence();
-		if (currentStamp == lastStamp) {
+        int sequence = snowFlakeDomain.getSequence ();
+        sequence++;
+        long thisTime = snowFlakeDomain.getThisTime ();
 
-			sequence = (sequence + 1) & SnowFlakeConstant.MAX_SEQUENCE;
+        if (sequence > SnowFlakeConstant.MAX_SEQUENCE) {
 
-			if (sequence == 0L) {
-				currentStamp = getNextMillis(lastStamp);
-			}
-		} else {
-			sequence = 0;
-		}
-		snowFlakeDomain.setLastStamp(currentStamp);
-		snowFlakeDomain.setSequence(sequence);
+            thisTime = getNextTime (thisTime);
+            sequence = 0;
 
-		return (currentStamp - SnowFlakeConstant.START_STAMP) << SnowFlakeConstant.TIMESTAMP_LEFT
-				| snowFlakeDomain.getDataCenterId() << SnowFlakeConstant.DATA_CENTER_LEFT
-				| snowFlakeDomain.getMachineId() << SnowFlakeConstant.MACHINE_LEFT
-				| sequence;
-	}
+            snowFlakeDomain.setThisTime (thisTime);
+        }
 
-	private long getNextMillis(long lastStamp) {
-		long millis = System.currentTimeMillis();
-		while (millis <= lastStamp) {
-			millis = System.currentTimeMillis();
-		}
-		return millis;
-	}
+        snowFlakeDomain.setSequence (sequence);
+
+        return thisTime << SnowFlakeConstant.TIMESTAMP_LEFT
+                | snowFlakeDomain.getDataCenterId () << SnowFlakeConstant.DATA_CENTER_LEFT
+                | snowFlakeDomain.getMachineId () << SnowFlakeConstant.MACHINE_LEFT
+                | sequence;
+    }
+
+    private long getNextTime(long thisTime) {
+        long nextTime = getNextSeconds ();
+        while (nextTime <= thisTime) {
+            nextTime = getNextSeconds ();
+        }
+        return nextTime;
+    }
+    private long getNextSeconds(){
+        long thisTimeMillis = System.currentTimeMillis ();
+        return TimeUnit.MILLISECONDS.toSeconds (thisTimeMillis);
+    }
+
 }

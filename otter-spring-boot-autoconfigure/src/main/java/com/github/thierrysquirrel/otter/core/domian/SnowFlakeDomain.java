@@ -28,13 +28,8 @@ import lombok.Data;
  */
 @Data
 public class SnowFlakeDomain {
+	private long thisTime;
 	private int dataCenterId;
 	private int machineId;
 	private int sequence;
-	private long lastStamp;
-
-	public SnowFlakeDomain(int sequence, long lastStamp) {
-		this.sequence = sequence;
-		this.lastStamp = lastStamp;
-	}
 }

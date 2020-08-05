@@ -21,6 +21,7 @@ import com.github.thierrysquirrel.otter.core.constant.SnowFlakeConstant;
 import com.github.thierrysquirrel.otter.core.domian.SnowFlakeDomain;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ClassName: SnowFlakeDomainFactory
@@ -31,11 +32,16 @@ import java.util.concurrent.ThreadLocalRandom;
  * @since JDK 1.8
  */
 public class SnowFlakeDomainFactory {
-	private SnowFlakeDomainFactory() {
-	}
+    private SnowFlakeDomainFactory() {
+    }
 
-	public static SnowFlakeDomain createSnowFlakeDomain() {
-		return new SnowFlakeDomain (ThreadLocalRandom.current ().nextInt (SnowFlakeConstant.MAX_DATA_CENTER_NUM),
-				ThreadLocalRandom.current ().nextInt (SnowFlakeConstant.MAX_MACHINE_NUM));
-	}
+    public static SnowFlakeDomain createSnowFlakeDomain() {
+        SnowFlakeDomain snowFlakeDomain = new SnowFlakeDomain ();
+        long thisTime = System.currentTimeMillis ();
+        thisTime = TimeUnit.MILLISECONDS.toSeconds (thisTime);
+        snowFlakeDomain.setThisTime (thisTime);
+        snowFlakeDomain.setDataCenterId (ThreadLocalRandom.current ().nextInt (SnowFlakeConstant.MAX_DATA_CENTER_NUM));
+        snowFlakeDomain.setMachineId (ThreadLocalRandom.current ().nextInt (SnowFlakeConstant.MAX_MACHINE_NUM));
+        return snowFlakeDomain;
+    }
 }

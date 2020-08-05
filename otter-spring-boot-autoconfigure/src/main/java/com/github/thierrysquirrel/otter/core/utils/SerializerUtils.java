@@ -30,19 +30,19 @@ import io.protostuff.runtime.RuntimeSchema;
  * @since JDK 1.8
  */
 public class SerializerUtils {
-	private SerializerUtils() {
-	}
+    private SerializerUtils() {
+    }
 
-	@SuppressWarnings("unchecked")
-	public static <T> byte[] serialize(T object) {
-		Schema schema = RuntimeSchema.getSchema(object.getClass());
-		return ProtobufIOUtil.toByteArray(object, schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
-	}
+    @SuppressWarnings("unchecked")
+    public static <T> byte[] serialize(T object) {
+        Schema<T> schema = (Schema<T>) RuntimeSchema.getSchema (object.getClass ());
+        return ProtobufIOUtil.toByteArray (object, schema, LinkedBuffer.allocate (LinkedBuffer.DEFAULT_BUFFER_SIZE));
+    }
 
-	public static <T> T deSerialize(byte[] bytes, Class<T> clazz) {
-		RuntimeSchema<T> runtimeSchema = RuntimeSchema.createFrom(clazz);
-		T object = runtimeSchema.newMessage();
-		ProtobufIOUtil.mergeFrom(bytes, object, runtimeSchema);
-		return object;
-	}
+    public static <T> T deSerialize(byte[] bytes, Class<T> clazz) {
+        RuntimeSchema<T> runtimeSchema = RuntimeSchema.createFrom (clazz);
+        T object = runtimeSchema.newMessage ();
+        ProtobufIOUtil.mergeFrom (bytes, object, runtimeSchema);
+        return object;
+    }
 }

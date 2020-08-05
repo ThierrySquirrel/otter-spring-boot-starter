@@ -25,13 +25,12 @@ package com.github.thierrysquirrel.otter.core.constant;
  * @since JDK 1.8
  */
 public final class SnowFlakeConstant {
-	public static final long START_STAMP = System.currentTimeMillis();
 	public static final int MAX_DATA_CENTER_NUM = 32;
 	public static final int MAX_MACHINE_NUM = 32;
-	public static final int MAX_SEQUENCE = 4095;
-	public static final int MACHINE_LEFT = 12;
-	public static final int DATA_CENTER_LEFT = 17;
-	public static final int TIMESTAMP_LEFT = 22;
+	public static final int TIMESTAMP_LEFT = 31;
+	public static final int DATA_CENTER_LEFT = 26;
+	public static final int MACHINE_LEFT = 21;
+	public static final int MAX_SEQUENCE = 2097151;
 
 	private SnowFlakeConstant() {
 	}
