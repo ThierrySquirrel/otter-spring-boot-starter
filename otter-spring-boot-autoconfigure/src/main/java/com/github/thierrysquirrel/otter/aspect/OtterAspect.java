@@ -37,7 +37,7 @@ import org.aspectj.lang.annotation.Pointcut;
 public class OtterAspect {
     @Pointcut("@annotation(com.github.thierrysquirrel.otter.annotation.Repair)")
     public void repairPointcut() {
-        log.debug ("Start LimitTraffic");
+        log.debug ("Start RepairPointcut");
     }
 
     @Around("repairPointcut()")
