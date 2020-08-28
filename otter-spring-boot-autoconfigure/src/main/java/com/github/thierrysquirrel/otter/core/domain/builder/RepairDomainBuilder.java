@@ -13,28 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.annotation;
+package com.github.thierrysquirrel.otter.core.domain.builder;
 
-import java.lang.annotation.*;
+import com.github.thierrysquirrel.otter.core.domain.RepairDomain;
+
+import java.lang.reflect.Method;
+import java.util.List;
 
 /**
- * ClassName: Repair
+ * ClassName: RepairDomainBuilder
  * Description:
- * date: 2020/8/28 19:44
+ * date: 2020/8/28 19:54
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface Repair {
-    /**
-     * RepairInterval
-     * <p>
-     * 修复间隔
-     *
-     * @return int[]
-     */
-    int[] repairInterval() default {500, 1000};
+public class RepairDomainBuilder {
+    private RepairDomainBuilder() {
+    }
+
+    public static RepairDomain builderRepairDomain(List<Integer> repairInterval, Object bean, Method method) {
+        RepairDomain repairDomain = new RepairDomain ();
+        repairDomain.setRepairInterval (repairInterval);
+        repairDomain.setBean (bean);
+        repairDomain.setMethod (method);
+        return repairDomain;
+    }
 }

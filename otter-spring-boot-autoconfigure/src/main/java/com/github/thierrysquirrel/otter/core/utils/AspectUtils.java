@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 the original author or authors.
+ * Copyright 2020 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.thierrysquirrel.otter.core.utils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -24,17 +23,21 @@ import java.lang.reflect.Method;
 /**
  * ClassName: AspectUtils
  * Description:
- * date: 2020/1/3 19:27
+ * date: 2020/8/28 21:00
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
 public class AspectUtils {
-	private AspectUtils() {
-	}
+    private AspectUtils() {
+    }
 
-	public static Method getMethod(ProceedingJoinPoint proceedingJoinPoint) {
-		MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
-		return signature.getMethod();
-	}
+    private static Method getMethod(ProceedingJoinPoint proceedingJoinPoint) {
+        MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature ();
+        return signature.getMethod ();
+    }
+
+    public static String getMethodToString(ProceedingJoinPoint proceedingJoinPoint) {
+        return getMethod (proceedingJoinPoint).toString ();
+    }
 }

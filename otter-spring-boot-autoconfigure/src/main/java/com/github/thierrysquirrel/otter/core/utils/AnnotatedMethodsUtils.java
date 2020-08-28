@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 the original author or authors.
+ * Copyright 2020 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.thierrysquirrel.otter.core.utils;
 
 import org.springframework.core.MethodIntrospector;
@@ -26,18 +25,18 @@ import java.util.Map;
 /**
  * ClassName: AnnotatedMethodsUtils
  * Description:
- * date: 2020/1/3 16:30
+ * date: 2020/8/28 20:00
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
 public class AnnotatedMethodsUtils {
-	private AnnotatedMethodsUtils() {
-	}
+    private AnnotatedMethodsUtils() {
+    }
 
-	public static <T extends Annotation> Map<Method, T> getMethodAndAnnotation(Object bean, Class<T> annotation) {
-		return MethodIntrospector.selectMethods(bean.getClass(),
-				(MethodIntrospector.MetadataLookup<T>) method -> AnnotatedElementUtils
-						.findMergedAnnotation(method, annotation));
-	}
+    public static <T extends Annotation> Map<Method, T> getMethodAndAnnotation(Object bean, Class<T> annotation) {
+        return MethodIntrospector.selectMethods (bean.getClass (),
+                (MethodIntrospector.MetadataLookup<T>) method -> AnnotatedElementUtils
+                        .findMergedAnnotation (method, annotation));
+    }
 }

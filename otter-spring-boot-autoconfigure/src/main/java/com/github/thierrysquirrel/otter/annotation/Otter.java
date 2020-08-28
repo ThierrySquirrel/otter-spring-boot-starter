@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.thierrysquirrel.otter.annotation;
 
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ import java.lang.annotation.*;
 /**
  * ClassName: Otter
  * Description:
- * date: 2020/1/3 15:34
+ * date: 2020/8/28 19:43
  *
  * @author ThierrySquirrel
  * @since JDK 1.8

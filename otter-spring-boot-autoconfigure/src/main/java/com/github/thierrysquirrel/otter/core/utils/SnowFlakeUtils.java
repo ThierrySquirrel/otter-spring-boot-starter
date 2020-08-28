@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 the original author or authors.
+ * Copyright 2020 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,32 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.thierrysquirrel.otter.core.utils;
 
-
-import com.github.thierrysquirrel.otter.core.constant.SnowFlakeConstant;
-import com.github.thierrysquirrel.otter.core.domian.SnowFlakeDomain;
-import com.github.thierrysquirrel.otter.core.factory.SnowFlakeDomainFactory;
-import lombok.extern.slf4j.Slf4j;
+import com.github.thierrysquirrel.otter.core.domain.SnowFlakeDomain;
+import com.github.thierrysquirrel.otter.core.domain.builder.SnowFlakeDomainBuilder;
+import com.github.thierrysquirrel.otter.core.domain.constant.SnowFlakeDomainConstant;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * ClassName: SnowFlakeUtils
  * Description:
- * date: 2020/1/3 15:56
+ * date: 2020/8/28 19:48
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Slf4j
 public class SnowFlakeUtils {
-    private final SnowFlakeDomain snowFlakeDomain;
-
-    public SnowFlakeUtils() {
-        this.snowFlakeDomain = SnowFlakeDomainFactory.createSnowFlakeDomain ();
-    }
+    private final SnowFlakeDomain snowFlakeDomain = SnowFlakeDomainBuilder.builderDefaultSnowFlakeDomain ();
 
     public synchronized Long nextId() {
 
@@ -46,7 +38,7 @@ public class SnowFlakeUtils {
         sequence++;
         long thisTime = snowFlakeDomain.getThisTime ();
 
-        if (sequence > SnowFlakeConstant.MAX_SEQUENCE) {
+        if (sequence > SnowFlakeDomainConstant.MAX_SEQUENCE) {
 
             thisTime = getNextTime (thisTime);
             sequence = 0;
@@ -56,9 +48,9 @@ public class SnowFlakeUtils {
 
         snowFlakeDomain.setSequence (sequence);
 
-        return thisTime << SnowFlakeConstant.TIMESTAMP_LEFT
-                | snowFlakeDomain.getDataCenterId () << SnowFlakeConstant.DATA_CENTER_LEFT
-                | snowFlakeDomain.getMachineId () << SnowFlakeConstant.MACHINE_LEFT
+        return thisTime << SnowFlakeDomainConstant.TIMESTAMP_LEFT
+                | snowFlakeDomain.getDataCenterId () << SnowFlakeDomainConstant.DATA_CENTER_LEFT
+                | snowFlakeDomain.getMachineId () << SnowFlakeDomainConstant.MACHINE_LEFT
                 | sequence;
     }
 
@@ -69,9 +61,9 @@ public class SnowFlakeUtils {
         }
         return nextTime;
     }
-    private long getNextSeconds(){
+
+    private long getNextSeconds() {
         long thisTimeMillis = System.currentTimeMillis ();
         return TimeUnit.MILLISECONDS.toSeconds (thisTimeMillis);
     }
-
 }

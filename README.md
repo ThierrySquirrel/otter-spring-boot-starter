@@ -9,12 +9,11 @@ Support Function：
 
 # Ensure Call Consistency：  
 
-  Support SpringBoot,SpringCloud(feign),dubbo-spring-boot-starter Frame   
-  Before Using, Make Sure The Call Link Is Idempotent.   
-  Simple explanation: service a calls service B, service B calls Service C,   
+  Before Using, Make Sure That The Call Link Is Idempotent  
+  Simple Explanation: Service A Calls Service B, Service B Calls Service C,   
   in the link, B and C execute successfully     
   A Execute Exception, Then The Data Is Inconsistent   
-  Otter Will Save The Error Information In MySQL And Automatically Try To Call The Link Again,  
+  The Otter Will Try To Call The Link Again  
   Service A Calls Service B, And Service B Calls Service C  
   If The Link Call Is Successful, The Data Is Consistent  
   
@@ -25,19 +24,9 @@ Support Function：
         <dependency>
             <artifactId>otter-spring-boot-starter</artifactId>
             <groupId>com.github.thierrysquirrel</groupId>
-            <version>1.1.7-RELEASE</version>
+            <version>2.0.0-RELEASE</version>
         </dependency>
 ```  
-
- ### Configuration File  
- 
- ```properties
- ## application.properties
-spring.datasource.url= #MySQL DataBase Url
-spring.datasource.username= #MySQL DataBase username
-spring.datasource.password= #MySQL DataBase password
-spring.jpa.hibernate.ddl-auto= #If Not Initialized otter_entity DataBase,Please Set Up :update
- ```  
 
 # Start Using  
 
@@ -48,14 +37,18 @@ public class Demo {
 	
     @Resource
 	public FeignService feignService;
-    /**
-    * Use zookeeper As A Registry,As A Demonstration
-    */
+
 	@Reference
 	private DubboService dubboService;
 
     @Resource
     private ButterService butterService;
+
+    @GetMapping("/local")
+    public String local(){
+        //Local SQL Execution
+        return "local";
+    }
 
 	@Repair
 	@GetMapping("/feign")
@@ -81,5 +74,78 @@ public class Demo {
 		return "butter";
 	}
 
+}
+```
+
+# Add Feign Support
+
+```java
+@Component
+public class OtterFeignRequestInterceptor implements RequestInterceptor {
+
+	@Override
+	public void apply(RequestTemplate template) {
+		Optional<Long> globalId = Optional.ofNullable(GlobalIdUtils.getId());
+		globalId.ifPresent(id -> template.header(InterceptorConstant.INTERCEPTOR_IDENTIFIER, String.valueOf(id)));
+	}
+}
+
+@Component
+public class OtterOncePerRequestFilter extends OncePerRequestFilter {
+
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+		Optional<String> globalId = Optional.ofNullable(request.getHeader(InterceptorConstant.INTERCEPTOR_IDENTIFIER));
+		globalId.ifPresent(id -> GlobalIdUtils.setId(Long.valueOf(id)));
+		filterChain.doFilter(request, response);
+	}
+}
+```
+
+# Add dubbo-spring-boot-starter Support
+
+```java
+@Activate(group = CommonConstants.CONSUMER)
+public class OtterDubboConsumerFilter implements Filter {
+
+    @Override
+    public Result invoke(Invoker<?> invoker, Invocation invocation) {
+        Optional<Long> globalId = Optional.ofNullable(GlobalIdUtils.getId());
+        globalId.ifPresent(id -> RpcContext.getContext().setAttachment(InterceptorConstant.INTERCEPTOR_IDENTIFIER, String.valueOf(id)));
+        return invoker.invoke(invocation);
+    }
+}
+
+@Activate(group = CommonConstants.PROVIDER)
+public class OtterDubboProviderFilter implements Filter {
+
+    @Override
+    public Result invoke(Invoker<?> invoker, Invocation invocation) {
+        Optional<Object> globalId = Optional.ofNullable(RpcContext.getContext().getAttachment(InterceptorConstant.INTERCEPTOR_IDENTIFIER));
+        globalId.ifPresent(id -> GlobalIdUtils.setId((Long.valueOf(String.valueOf(id)))));
+        return invoker.invoke(invocation);
+    }
+}
+```
+
+# Add butter Support
+
+```java
+@ButterflyFilter
+public class ButterConsumerFilter implements Filter {
+	@Override
+	public void filter(PineRequestContextFilterDomain pineRequestContextFilterDomain) {
+		Optional<Long> globalId = Optional.ofNullable(GlobalIdUtils.getId());
+		globalId.ifPresent(id -> pineRequestContextFilterDomain.setAttachment(InterceptorConstant.INTERCEPTOR_IDENTIFIER, String.valueOf(id)));
+	}
+}
+
+@FlowerFilter
+public class ButterProducerFilter implements Filter {
+	@Override
+	public void filter(PineRequestContextFilterDomain pineRequestContextFilterDomain) {
+		Optional<String> globalId = Optional.ofNullable(pineRequestContextFilterDomain.getAttachment(InterceptorConstant.INTERCEPTOR_IDENTIFIER));
+		globalId.ifPresent(id -> GlobalIdUtils.setId((Long.valueOf(id))));
+	}
 }
 ```

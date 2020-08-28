@@ -13,28 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.annotation;
-
-import java.lang.annotation.*;
+package com.github.thierrysquirrel.otter.core.domain.constant;
 
 /**
- * ClassName: Repair
+ * ClassName: SnowFlakeDomainConstant
  * Description:
- * date: 2020/8/28 19:44
+ * date: 2020/8/28 19:48
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface Repair {
-    /**
-     * RepairInterval
-     * <p>
-     * 修复间隔
-     *
-     * @return int[]
-     */
-    int[] repairInterval() default {500, 1000};
+public final class SnowFlakeDomainConstant {
+    public static final int MAX_DATA_CENTER_NUM = 32;
+    public static final int MAX_MACHINE_NUM = 32;
+    public static final int TIMESTAMP_LEFT = 31;
+    public static final int DATA_CENTER_LEFT = 26;
+    public static final int MACHINE_LEFT = 21;
+    public static final int MAX_SEQUENCE = 2097151;
+    public static final int DEFAULT_SEQUENCE = 0;
+
+    private SnowFlakeDomainConstant() {
+    }
+
 }

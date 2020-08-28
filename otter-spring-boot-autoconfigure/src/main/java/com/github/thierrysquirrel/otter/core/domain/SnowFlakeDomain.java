@@ -13,28 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.annotation;
+package com.github.thierrysquirrel.otter.core.domain;
 
-import java.lang.annotation.*;
+import lombok.Data;
 
 /**
- * ClassName: Repair
+ * ClassName: SnowFlakeDomain
  * Description:
- * date: 2020/8/28 19:44
+ * date: 2020/8/28 19:46
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface Repair {
-    /**
-     * RepairInterval
-     * <p>
-     * 修复间隔
-     *
-     * @return int[]
-     */
-    int[] repairInterval() default {500, 1000};
+@Data
+public class SnowFlakeDomain {
+    private long thisTime;
+    private int dataCenterId;
+    private int machineId;
+    private int sequence;
 }

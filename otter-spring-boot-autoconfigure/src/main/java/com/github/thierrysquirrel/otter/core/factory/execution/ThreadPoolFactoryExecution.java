@@ -13,28 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.annotation;
+package com.github.thierrysquirrel.otter.core.factory.execution;
 
-import java.lang.annotation.*;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
- * ClassName: Repair
+ * ClassName: ThreadPoolFactoryExecution
  * Description:
- * date: 2020/8/28 19:44
+ * date: 2020/8/28 21:23
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface Repair {
-    /**
-     * RepairInterval
-     * <p>
-     * 修复间隔
-     *
-     * @return int[]
-     */
-    int[] repairInterval() default {500, 1000};
+public class ThreadPoolFactoryExecution {
+    private ThreadPoolFactoryExecution() {
+    }
+
+
+    public static void statsDelayThread(ScheduledThreadPoolExecutor scheduledThreadPoolExecutor, Runnable runnable, int delay) {
+        scheduledThreadPoolExecutor.schedule (runnable, delay, TimeUnit.MILLISECONDS);
+    }
 }

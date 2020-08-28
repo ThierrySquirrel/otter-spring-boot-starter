@@ -13,28 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.annotation;
+package com.github.thierrysquirrel.otter.core.factory.constant;
 
-import java.lang.annotation.*;
+import com.github.thierrysquirrel.otter.core.factory.ThreadPoolFactory;
+
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
- * ClassName: Repair
+ * ClassName: ThreadPoolFactoryConstant
  * Description:
- * date: 2020/8/28 19:44
+ * date: 2020/8/28 21:19
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface Repair {
-    /**
-     * RepairInterval
-     * <p>
-     * 修复间隔
-     *
-     * @return int[]
-     */
-    int[] repairInterval() default {500, 1000};
+public final class ThreadPoolFactoryConstant {
+    public static final ScheduledThreadPoolExecutor REPAIR_THREAD_POOL = ThreadPoolFactory.createRepairThreadPool ();
+
+    private ThreadPoolFactoryConstant() {
+    }
 }

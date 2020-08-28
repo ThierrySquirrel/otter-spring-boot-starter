@@ -13,38 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.core.utils;
+package com.github.thierrysquirrel.otter.core.container;
+
+import com.github.thierrysquirrel.otter.core.domain.RepairDomain;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
- * ClassName: GlobalIdUtils
+ * ClassName: RepairContainer
  * Description:
- * date: 2020/8/28 19:49
+ * date: 2020/8/28 19:56
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-public class GlobalIdUtils {
-    private static final ThreadLocal<Long> THREAD_LOCAL_DATA = new InheritableThreadLocal<> ();
-    private static final SnowFlakeUtils SNOW_FLAKE_UTILS = new SnowFlakeUtils ();
+public class RepairContainer {
+    private static final Map<String, RepairDomain> REPAIR_MAP = Maps.newConcurrentMap ();
 
-    private GlobalIdUtils() {
+    private RepairContainer() {
     }
 
-    public static Long createId() {
-        Long id = SNOW_FLAKE_UTILS.nextId ();
-        THREAD_LOCAL_DATA.set (id);
-        return id;
+    public static void putRepair(String methodString, RepairDomain methodDomain) {
+        REPAIR_MAP.put (methodString, methodDomain);
     }
 
-    public static Long getId() {
-        return THREAD_LOCAL_DATA.get ();
-    }
-
-    public static void setId(Long id) {
-        THREAD_LOCAL_DATA.set (id);
-    }
-
-    public static void removeId() {
-        THREAD_LOCAL_DATA.remove ();
+    public static RepairDomain getRepair(String methodString) {
+        return REPAIR_MAP.get (methodString);
     }
 }

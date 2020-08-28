@@ -13,28 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.annotation;
-
-import java.lang.annotation.*;
+package com.github.thierrysquirrel.otter.core.exception;
 
 /**
- * ClassName: Repair
+ * ClassName: OtterException
  * Description:
- * date: 2020/8/28 19:44
+ * date: 2020/8/28 20:25
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface Repair {
-    /**
-     * RepairInterval
-     * <p>
-     * 修复间隔
-     *
-     * @return int[]
-     */
-    int[] repairInterval() default {500, 1000};
+public class OtterException extends Exception {
+
+    public OtterException(String message) {
+        super (message);
+    }
+
+    public OtterException(String message, Throwable cause) {
+        super (message, cause);
+    }
 }

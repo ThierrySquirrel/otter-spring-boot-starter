@@ -13,28 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.annotation;
-
-import java.lang.annotation.*;
+package com.github.thierrysquirrel.otter.core.container;
 
 /**
- * ClassName: Repair
+ * ClassName: InterceptorConstant
  * Description:
- * date: 2020/8/28 19:44
+ * date: 2020/8/29 1:24
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface Repair {
-    /**
-     * RepairInterval
-     * <p>
-     * 修复间隔
-     *
-     * @return int[]
-     */
-    int[] repairInterval() default {500, 1000};
+public final class InterceptorConstant {
+    public static final String INTERCEPTOR_IDENTIFIER = "otter";
+
+    private InterceptorConstant() {
+    }
 }

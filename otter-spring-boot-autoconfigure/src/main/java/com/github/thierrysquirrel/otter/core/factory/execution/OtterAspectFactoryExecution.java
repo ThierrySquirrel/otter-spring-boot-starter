@@ -13,36 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.aspect;
+package com.github.thierrysquirrel.otter.core.factory.execution;
 
+import com.github.thierrysquirrel.otter.core.container.RepairContainer;
 import com.github.thierrysquirrel.otter.core.exception.OtterException;
-import com.github.thierrysquirrel.otter.core.factory.execution.OtterAspectFactoryExecution;
-import com.github.thierrysquirrel.otter.core.utils.AspectUtils;
+import com.github.thierrysquirrel.otter.core.factory.OtterAspectFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 
 /**
- * ClassName: OtterAspect
+ * ClassName: OtterAspectFactoryExecution
  * Description:
- * date: 2020/8/28 20:49
+ * date: 2020/8/28 20:52
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
 @Slf4j
-@Aspect
-public class OtterAspect {
-    @Pointcut("@annotation(com.github.thierrysquirrel.otter.annotation.Repair)")
-    public void repairPointcut() {
-        log.debug ("Start LimitTraffic");
+public class OtterAspectFactoryExecution {
+    private OtterAspectFactoryExecution() {
     }
 
-    @Around("repairPointcut()")
-    public Object repairAround(ProceedingJoinPoint point) throws OtterException {
-        return OtterAspectFactoryExecution.execution (point, AspectUtils.getMethodToString (point));
+    public static Object execution(ProceedingJoinPoint point, String methodString) throws OtterException {
+        if (OtterAspectFactory.isIntercept ()) {
+            return OtterAspectFactory.repairInterval (point, RepairContainer.getRepair (methodString));
+        }
+        return OtterAspectFactory.release (point);
     }
-
 }

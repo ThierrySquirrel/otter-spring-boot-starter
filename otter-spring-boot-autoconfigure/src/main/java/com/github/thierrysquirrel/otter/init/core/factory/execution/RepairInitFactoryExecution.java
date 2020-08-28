@@ -13,28 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.thierrysquirrel.otter.annotation;
+package com.github.thierrysquirrel.otter.init.core.factory.execution;
 
-import java.lang.annotation.*;
+import com.github.thierrysquirrel.otter.annotation.Repair;
+import com.github.thierrysquirrel.otter.init.core.factory.RepairInitFactory;
+
+import java.lang.reflect.Method;
 
 /**
- * ClassName: Repair
+ * ClassName: RepairInitFactoryExecution
  * Description:
- * date: 2020/8/28 19:44
+ * date: 2020/8/28 20:06
  *
  * @author ThierrySquirrel
  * @since JDK 1.8
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface Repair {
-    /**
-     * RepairInterval
-     * <p>
-     * 修复间隔
-     *
-     * @return int[]
-     */
-    int[] repairInterval() default {500, 1000};
+public class RepairInitFactoryExecution {
+    private RepairInitFactoryExecution() {
+    }
+
+    public static void execution(Object otterBean, Repair repair, Method repairMethod) {
+        RepairInitFactory.addRepairDomain (otterBean, repairMethod, repair);
+    }
+
 }
