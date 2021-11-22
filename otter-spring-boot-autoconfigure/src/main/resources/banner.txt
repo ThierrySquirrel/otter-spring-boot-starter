@@ -9,4 +9,4 @@ ${AnsiColor.BRIGHT_GREEN}
      `\       /'
        `-._.-'
           `
-otter version:2.1.0.8.RELEASE
+otter version:2.1.0.9.RELEASE
